@@ -44,7 +44,6 @@ jobs:
             ! -name '*-sources.jar' \
             > release-files.txt
 
-          cat release-files.txt
           test -s release-files.txt
 
       - name: Publish GitHub Release
@@ -55,4 +54,5 @@ jobs:
           name: Latest Build
           prerelease: true
           make_latest: false
-          files: release-files.txt
+          files: |
+            versions/*/build/libs/unblockbannedservers-mc-*.jar
