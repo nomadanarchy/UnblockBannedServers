@@ -56,5 +56,3 @@ jobs:
           prerelease: true
           make_latest: false
           files: release-files.txt
-          make_latest: false
-          files: release-files.txt
