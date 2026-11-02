@@ -40,12 +40,11 @@ jobs:
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           find versions -type f \
-            -name 'unblockbannedservers-mc-*.jar' \
+            -path '*/build/libs/unblockbannedservers-mc-*.jar' \
             ! -name '*-sources.jar' \
             > release-files.txt
 
           cat release-files.txt
-
           test -s release-files.txt
 
       - name: Publish GitHub Release
@@ -55,5 +54,7 @@ jobs:
           tag_name: nightly
           name: Latest Build
           prerelease: true
+          make_latest: false
+          files: release-files.txt
           make_latest: false
           files: release-files.txt
