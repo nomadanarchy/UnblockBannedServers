@@ -36,6 +36,18 @@ jobs:
             !versions/*/build/libs/unblockbannedservers-mc-*-sources.jar
           if-no-files-found: error
 
+      - name: Prepare release files
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          find versions -type f \
+            -name 'unblockbannedservers-mc-*.jar' \
+            ! -name '*-sources.jar' \
+            > release-files.txt
+
+          cat release-files.txt
+
+          test -s release-files.txt
+
       - name: Publish GitHub Release
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: softprops/action-gh-release@v2
@@ -44,7 +56,4 @@ jobs:
           name: Latest Build
           prerelease: true
           make_latest: false
-          files: |
-            versions/*/build/libs/unblockbannedservers-mc-*.jar
-            !versions/*/build/libs/unblockbannedservers-mc-*-sources.jar
-          fail_on_unmatched_files: true
+          files: release-files.txt
