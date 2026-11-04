@@ -6,12 +6,13 @@ plugins {
 val minecraftVersion = stonecutter.current.project
 val loaderVersion = property("loader_version") as String
 val javaVersion = (property("java_version") as String).toInt()
+val minecraftRange = property("minecraft_range") as String
 
 version = property("mod_version")!!
 group = property("maven_group")!!
 
 base {
-    archivesName.set("unblockbannedservers-mc-${minecraftVersion}")
+    archivesName.set("unblockbannedservers-mc-${property("mc_label")}")
 }
 
 dependencies {
@@ -34,12 +35,14 @@ tasks.processResources {
     inputs.property("minecraft_version", minecraftVersion)
     inputs.property("loader_version", loaderVersion)
     inputs.property("java_version", javaVersion)
+    inputs.property("minecraft_range", minecraftRange)
     filteringCharset = "UTF-8"
 
     filesMatching("fabric.mod.json") {
         expand(
             "version" to project.version,
             "minecraft_version" to minecraftVersion,
+            "minecraft_range" to minecraftRange,
             "loader_version" to loaderVersion,
             "java_version" to javaVersion
         )
